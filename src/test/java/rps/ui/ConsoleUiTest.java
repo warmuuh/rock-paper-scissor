@@ -10,6 +10,9 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
+import rps.game.Game;
+import rps.game.Shape;
+
 public class ConsoleUiTest {
 
 	@Rule
@@ -21,7 +24,7 @@ public class ConsoleUiTest {
 
 	@Before
 	public void setup() {
-		ui = new ConsoleUi();
+		ui = new ConsoleUi(new Game());
 		ui.initialize();
 	}
 
@@ -33,7 +36,7 @@ public class ConsoleUiTest {
 	@Test
 	public void playerShouldMakeAMove() {
 		systemInMock.provideText("1");
-		ui.start();
+		ui.chooseShape();
 
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("You chose Rock"));
@@ -42,7 +45,7 @@ public class ConsoleUiTest {
 	@Test
 	public void uiShouldHandleInvalidMove() {
 		systemInMock.provideText("9\n", "1\n");
-		ui.start();
+		ui.chooseShape();
 
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("invalid"));
@@ -51,10 +54,26 @@ public class ConsoleUiTest {
 	@Test
 	public void uiShouldHandleInvalidInput() {
 		systemInMock.provideText("XX\n", "1\n");
-		ui.start();
+		ui.chooseShape();
 
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("invalid"));
 	}
 
+	@Test
+	public void uiShouldChooseRandomShape() {
+		Shape shape = ui.chooseRandomShape();
+		assertThat(shape, notNullValue());
+		assertThat(log.getLog(), containsString("Computer chose"));
+	}
+
+	@Test
+	public void bothPlayersChooseAndResultIsDisplayed() {
+		systemInMock.provideText("1");
+		ui.start();
+		assertThat(log.getLog(), containsString("Choose"));
+		assertThat(log.getLog(), containsString("You chose"));
+		assertThat(log.getLog(), containsString("Computer chose"));
+		assertThat(log.getLog(), anyOf(containsString("win"), containsString("tie")));
+	}
 }

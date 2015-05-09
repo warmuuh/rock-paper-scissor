@@ -1,18 +1,37 @@
 package rps.ui;
 
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
+import rps.game.Game;
 import rps.game.Shape;
 
 public class ConsoleUi {
 
-	public void start() {
-		Shape chosenShape = chooseShape();
-		displayMessage("You chose " + chosenShape);
+	private final Game game;
+
+	public ConsoleUi(Game game) {
+		this.game = game;
 	}
 
-	private Shape chooseShape() {
+	public void start() {
+		Shape playerShape = chooseShape();
+		Shape computerShape = chooseRandomShape();
+		decideWinner(playerShape, computerShape);
+	}
+
+	private void decideWinner(Shape playerShape, Shape computerShape) {
+		if (playerShape.beats(computerShape)) {
+			displayMessage("Player wins!");
+		} else if (computerShape.beats(playerShape)) {
+			displayMessage("Computer wins!");
+		} else {
+			displayMessage("Its a tie!");
+		}
+	}
+
+	/* package */Shape chooseShape() {
 		Shape chosenShape = null;
 		while (chosenShape == null) {
 			chosenShape = askForShape();
@@ -20,7 +39,18 @@ public class ConsoleUi {
 				displayMessage("You chose an invalid shape. Please choose again.");
 			}
 		}
+		displayMessage("You chose " + chosenShape);
 		return chosenShape;
+	}
+
+	/* package */Shape chooseRandomShape() {
+		int maxIdExclusive = Shape.values().length;
+		Random rnd = new Random(System.currentTimeMillis());
+		int randomId = rnd.nextInt(maxIdExclusive);
+		Shape shape = getShapeForIdOrNull(randomId);
+
+		displayMessage("Computer chose " + shape);
+		return shape;
 	}
 
 	private Shape askForShape() {
@@ -28,16 +58,14 @@ public class ConsoleUi {
 		if (input == null)
 			return null;
 
-		switch (input) {
-		case 1:
-			return Shape.Rock;
-		case 2:
-			return Shape.Scissor;
-		case 3:
-			return Shape.Paper;
-		default:
+		int shapeId = input - 1;
+		return getShapeForIdOrNull(shapeId);
+	}
+
+	private Shape getShapeForIdOrNull(int id) {
+		if (id < 0 || id >= Shape.values().length)
 			return null;
-		}
+		return Shape.values()[id];
 	}
 
 	@SuppressWarnings("resource")
