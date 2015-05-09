@@ -10,8 +10,41 @@ public class ConsoleUi {
 
 	public ConsoleUi(Game game) {
 		this.game = game;
+
+	}
+
+	/**
+	 * initializes game with default values
+	 */
+	public void initialize() {
+		choosePlayerVsComputer();
+		printWelcomeScreen();
+	}
+
+	public void chooseMode() {
+		displayMessage("Choose a mode:\n 1 - Player vs. Computer\n 2 - Computer vs. Computer");
+		Integer mode = askForMode();
+		if (mode == 1) {
+			displayMessage("You chose Player vs. Computer");
+			choosePlayerVsComputer();
+		} else {
+			displayMessage("You chose Computer vs. Computer");
+			chooseComuterVsComputer();
+		}
+	}
+
+	private void chooseComuterVsComputer() {
+		game.setPlayer1(new ConsoleAiPlayer("Computer 1"));
+		game.setPlayer2(new ConsoleAiPlayer("Computer 2"));
+	}
+
+	private void choosePlayerVsComputer() {
 		game.setPlayer1(new ConsoleHumanPlayer());
 		game.setPlayer2(new ConsoleAiPlayer("Computer"));
+	}
+
+	private Integer askForMode() {
+		return ConsoleIO.getValidChoice(1, 2, "invalid mode. please choose again.");
 	}
 
 	public void start() {
@@ -36,10 +69,6 @@ public class ConsoleUi {
 
 	private void printWelcomeScreen() {
 		displayMessage("Welcome to Rock, Paper and Scissor");
-	}
-
-	public void initialize() {
-		printWelcomeScreen();
 	}
 
 }

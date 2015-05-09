@@ -1,9 +1,6 @@
 package rps.ui;
 
 import static rps.ui.ConsoleIO.*;
-
-import java.util.Optional;
-
 import rps.game.Player;
 import rps.game.Shape;
 
@@ -18,26 +15,15 @@ public class ConsoleHumanPlayer implements Player {
 	}
 
 	private Shape chooseShape() {
-		Optional<Shape> chosenShape;
-		do {
-			chosenShape = askForShape();
-			if (!chosenShape.isPresent()) {
-				displayMessage("You chose an invalid shape. Please choose again.");
-			}
-		} while (!chosenShape.isPresent());
-
-		Shape shape = chosenShape.get();
-		displayMessage("You chose " + shape);
-		return shape;
+		Shape chosenShape = askForShape();
+		displayMessage("You chose " + chosenShape);
+		return chosenShape;
 	}
 
-	private Optional<Shape> askForShape() {
+	private Shape askForShape() {
 		showAvailableChoices();
-		Optional<Integer> input = ConsoleIO.tryReadInteger();
-		return input.flatMap(in -> {
-			int shapeId = in - 1;
-			return getShapeForId(shapeId);
-		});
+		Integer input = ConsoleIO.getValidChoice(1, availableShapes.length, "You chose an invalid shape. Please choose again.");
+		return getShapeForId(input - 1);
 	}
 
 	private void showAvailableChoices() {
@@ -49,10 +35,8 @@ public class ConsoleHumanPlayer implements Player {
 		displayMessage(b.toString());
 	}
 
-	private Optional<Shape> getShapeForId(int id) {
-		if (id < 0 || id >= availableShapes.length)
-			return Optional.empty();
-		return Optional.ofNullable(Shape.values()[id]);
+	private Shape getShapeForId(int id) {
+		return Shape.values()[id];
 	}
 
 	@Override

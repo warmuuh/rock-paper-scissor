@@ -41,4 +41,20 @@ public class ConsoleUiTest {
 		assertThat(log.getLog(), containsString("Computer chose"));
 		assertThat(log.getLog(), anyOf(containsString("win"), containsString("tie")));
 	}
+
+	@Test
+	public void userShouldChoosePvCMode() {
+		systemInMock.provideText("1");
+		ui.chooseMode();
+		assertThat(log.getLog(), containsString("mode"));
+		assertThat(log.getLog(), containsString("You chose Player vs. Computer"));
+	}
+
+	@Test
+	public void userShouldChooseCvCMode() {
+		systemInMock.provideText("2");
+		ui.chooseMode();
+		assertThat(log.getLog(), containsString("mode"));
+		assertThat(log.getLog(), containsString("You chose Computer vs. Computer"));
+	}
 }

@@ -1,6 +1,5 @@
 package rps.ui;
 
-import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
@@ -19,8 +18,9 @@ public final class ConsoleIO {
 		System.out.println(string);
 	}
 
-	public static Optional<Integer> tryReadInteger() {
-		Scanner scanner = new Scanner(ConsoleIO.getInputStream());
+	@SuppressWarnings("resource")
+	private static Optional<Integer> tryReadInteger() {
+		Scanner scanner = new Scanner(System.in);
 		try {
 			int input = scanner.nextInt();
 			return Optional.of(input);
@@ -29,7 +29,20 @@ public final class ConsoleIO {
 		}
 	}
 
-	public static InputStream getInputStream() {
-		return System.in;
+	/**
+	 * reads an integer from system.in that needs to be between min and max.
+	 * retries with displaying the errormessage on invalid input
+	 */
+	public static Integer getValidChoice(int min, int max, String errorMessage) {
+		Optional<Integer> input;
+		do {
+			input = tryReadInteger();
+			input = input.filter(in -> in >= min && in <= max);
+			if (!input.isPresent()) {
+				displayMessage(errorMessage);
+			}
+		} while (!input.isPresent());
+		return input.get();
 	}
+
 }
