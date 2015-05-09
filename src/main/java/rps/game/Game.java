@@ -2,8 +2,8 @@ package rps.game;
 
 public class Game {
 
-	public boolean makeMove(Shape rock, Shape scissor) {
-		return true;
+	public boolean makeMove(Shape moveOfPlayer1, Shape moveOfPalyer2) {
+		return moveOfPlayer1.beats(moveOfPalyer2);
 	}
 
 }
