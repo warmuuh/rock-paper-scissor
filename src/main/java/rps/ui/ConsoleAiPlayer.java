@@ -9,7 +9,7 @@ public class ConsoleAiPlayer extends AiPlayer {
 	final String name;
 
 	public ConsoleAiPlayer(String name) {
-		super();
+		super(name);
 		this.name = name;
 	}
 
@@ -18,11 +18,6 @@ public class ConsoleAiPlayer extends AiPlayer {
 		Shape chosenShape = super.getChosenShape(availableShapes);
 		displayMessage(name + " chose " + chosenShape);
 		return chosenShape;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 }

@@ -4,7 +4,11 @@ import static rps.ui.ConsoleIO.*;
 import rps.game.Player;
 import rps.game.Shape;
 
-public class ConsoleHumanPlayer implements Player {
+public class ConsoleHumanPlayer extends Player {
+
+	public ConsoleHumanPlayer() {
+		super("Player");
+	}
 
 	private Shape[] availableShapes;
 
@@ -37,11 +41,6 @@ public class ConsoleHumanPlayer implements Player {
 
 	private Shape getShapeForId(int id) {
 		return availableShapes[id];
-	}
-
-	@Override
-	public String getName() {
-		return "Player";
 	}
 
 }

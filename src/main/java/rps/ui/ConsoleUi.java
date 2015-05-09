@@ -3,10 +3,12 @@ package rps.ui;
 import static rps.ui.ConsoleIO.*;
 import rps.game.Game;
 import rps.game.GameResult;
+import rps.game.Player;
 
 public class ConsoleUi {
 
 	private final Game game;
+	private Integer rounds;
 
 	public ConsoleUi(Game game) {
 		this.game = game;
@@ -17,6 +19,7 @@ public class ConsoleUi {
 	 * initializes game with default values
 	 */
 	public void initialize() {
+		rounds = 1;
 		choosePlayerVsComputer();
 		printWelcomeScreen();
 	}
@@ -31,6 +34,12 @@ public class ConsoleUi {
 			displayMessage("You chose Computer vs. Computer");
 			chooseComuterVsComputer();
 		}
+	}
+
+	public void chooseRounds() {
+		displayMessage("How many rounds should be played?\n");
+		rounds = ConsoleIO.getValidChoice(1, 100, "You dont want to play more than 100 rounds, believe me.");
+		displayMessage("You chose " + rounds + " rounds.");
 	}
 
 	private void chooseComuterVsComputer() {
@@ -48,8 +57,20 @@ public class ConsoleUi {
 	}
 
 	public void start() {
-		GameResult result = game.startRound();
-		proclaimWinner(result);
+		for (int r = 0; r < rounds; ++r) {
+			GameResult result = game.startRound();
+			proclaimWinner(result);
+		}
+		displayFinalResult();
+	}
+
+	private void displayFinalResult() {
+		Player player1 = game.getPlayer1();
+		Player player2 = game.getPlayer2();
+		displayMessage("Final Results:\n");
+		displayMessage(" Scores of " + player1.getName() + ": " + player1.getScore());
+		displayMessage(" Scores of " + player2.getName() + ": " + player2.getScore());
+
 	}
 
 	private void proclaimWinner(GameResult result) {

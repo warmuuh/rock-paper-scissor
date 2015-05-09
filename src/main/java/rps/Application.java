@@ -11,6 +11,7 @@ public class Application {
 		ConsoleUi ui = new ConsoleUi(game);
 		ui.initialize();
 		ui.chooseMode();
+		ui.chooseRounds();
 		ui.start();
 	}
 

@@ -32,8 +32,11 @@ public class Game {
 		}
 
 		if (pl1Beats2) {
+			player1.incrementScore();
 			return GameResult.Player1Wins;
 		}
+
+		player2.incrementScore();
 		return GameResult.Player2Wins;
 
 	}

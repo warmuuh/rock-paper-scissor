@@ -46,6 +46,13 @@ public class ConsoleUiTest {
 	}
 
 	@Test
+	public void finalResultsShouldBeDisplayed() {
+		systemInMock.provideText("1");
+		ui.start();
+		assertThat(log.getLog(), containsString("Final Results"));
+	}
+
+	@Test
 	public void userShouldChoosePvCMode() {
 		systemInMock.provideText("1");
 		ui.chooseMode();
@@ -59,5 +66,12 @@ public class ConsoleUiTest {
 		ui.chooseMode();
 		assertThat(log.getLog(), containsString("mode"));
 		assertThat(log.getLog(), containsString("You chose Computer vs. Computer"));
+	}
+
+	@Test
+	public void userShouldChooseRounds() {
+		systemInMock.provideText("2");
+		ui.chooseRounds();
+		assertThat(log.getLog(), containsString("You chose 2 rounds."));
 	}
 }

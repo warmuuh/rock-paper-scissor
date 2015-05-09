@@ -6,8 +6,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import rps.game.mock.Looser;
 import rps.game.mock.LoosingShape;
 import rps.game.mock.WinLooseStrategy;
+import rps.game.mock.Winner;
 import rps.game.mock.WinningShape;
 
 public class GameTest {
@@ -17,6 +19,8 @@ public class GameTest {
 	@Before
 	public void setup() {
 		game = new Game(new WinLooseStrategy());
+		game.setPlayer1(new Winner());
+		game.setPlayer2(new Looser());
 	}
 
 	@Test
@@ -35,5 +39,11 @@ public class GameTest {
 	public void shouldUnderstandTie() {
 		GameResult result = game.makeMove(new WinningShape(), new WinningShape());
 		assertThat(result, is(GameResult.Tie));
+	}
+
+	@Test
+	public void scoreOfWinnerShouldIncrement() {
+		game.startRound();
+		assertThat(game.getPlayer1().getScore(), is(1));
 	}
 }

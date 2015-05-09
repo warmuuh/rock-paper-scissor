@@ -8,9 +8,13 @@ import java.util.Random;
  * @author pm
  *
  */
-public abstract class AiPlayer implements Player {
+public abstract class AiPlayer extends Player {
 
 	static private Random rnd = new Random(System.currentTimeMillis());
+
+	public AiPlayer(String name) {
+		super(name);
+	}
 
 	@Override
 	public Shape getChosenShape(Shape[] availableShapes) {
