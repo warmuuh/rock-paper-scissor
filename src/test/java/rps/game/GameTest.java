@@ -1,18 +1,16 @@
 package rps.game;
 
-import org.junit.Before;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 public class GameTest {
-	
-	private Game game;
 
-	@Before
-	private void setup() {
-		game = new Game();
+	@Test
+	public void testInitialization() {
+		Game game = new Game();
+		boolean win = game.makeMove(Shape.Rock, Shape.Scissor);
+		assertThat(win, is(true));
 	}
-	
-	
-	
-	
-	
 }
