@@ -2,8 +2,7 @@ package rps.ui;
 
 import static rps.ui.ConsoleIO.*;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.Optional;
 
 import rps.game.Player;
 import rps.game.Shape;
@@ -18,29 +17,30 @@ public class ConsoleHumanPlayer implements Player {
 		return chooseShape();
 	}
 
-	/* package */Shape chooseShape() {
-		Shape chosenShape = null;
-		while (chosenShape == null) {
+	private Shape chooseShape() {
+		Optional<Shape> chosenShape;
+		do {
 			chosenShape = askForShape();
-			if (chosenShape == null) {
+			if (!chosenShape.isPresent()) {
 				displayMessage("You chose an invalid shape. Please choose again.");
 			}
-		}
-		displayMessage("You chose " + chosenShape);
-		return chosenShape;
+		} while (!chosenShape.isPresent());
+
+		Shape shape = chosenShape.get();
+		displayMessage("You chose " + shape);
+		return shape;
 	}
 
-	private Shape askForShape() {
-		showPrompt();
-		Integer input = getInput();
-		if (input == null)
-			return null;
-
-		int shapeId = input - 1;
-		return getShapeForIdOrNull(shapeId);
+	private Optional<Shape> askForShape() {
+		showAvailableChoices();
+		Optional<Integer> input = ConsoleIO.tryReadInteger();
+		return input.flatMap(in -> {
+			int shapeId = in - 1;
+			return getShapeForId(shapeId);
+		});
 	}
 
-	private void showPrompt() {
+	private void showAvailableChoices() {
 		StringBuilder b = new StringBuilder("Choose:\n");
 		for (int i = 0; i < Shape.values().length; i++) {
 			Shape shape = Shape.values()[i];
@@ -49,22 +49,10 @@ public class ConsoleHumanPlayer implements Player {
 		displayMessage(b.toString());
 	}
 
-	private Shape getShapeForIdOrNull(int id) {
+	private Optional<Shape> getShapeForId(int id) {
 		if (id < 0 || id >= availableShapes.length)
-			return null;
-		return Shape.values()[id];
-	}
-
-	@SuppressWarnings("resource")
-	private Integer getInput() {
-		Scanner scanner = new Scanner(ConsoleIO.getInputStream());
-		try {
-			int input = scanner.nextInt();
-			return input;
-		} catch (InputMismatchException e) {
-			return null;
-		}
-
+			return Optional.empty();
+		return Optional.ofNullable(Shape.values()[id]);
 	}
 
 	@Override
