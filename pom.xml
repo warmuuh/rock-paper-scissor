@@ -6,11 +6,16 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 
+	<properties>
+		<main.class>rps.Application</main.class>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>pl.pragmatists</groupId>
@@ -22,6 +27,7 @@
 			<groupId>com.github.stefanbirkner</groupId>
 			<artifactId>system-rules</artifactId>
 			<version>1.9.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -38,6 +44,19 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>${main.class}</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
@@ -49,7 +68,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>rps.Application</mainClass>
+					<mainClass>${main.class}</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -38,7 +38,7 @@ public class ConsoleUiTest {
 	@Test
 	public void bothPlayersChooseAndResultIsDisplayed() {
 		systemInMock.provideText("1");
-		ui.start();
+		ui.startGame();
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("You chose"));
 		assertThat(log.getLog(), containsString("Computer chose"));
@@ -48,7 +48,7 @@ public class ConsoleUiTest {
 	@Test
 	public void finalResultsShouldBeDisplayed() {
 		systemInMock.provideText("1");
-		ui.start();
+		ui.startGame();
 		assertThat(log.getLog(), containsString("Final Results"));
 	}
 
