@@ -1,5 +1,6 @@
 package rps.ui;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import rps.game.Shape;
@@ -23,7 +24,10 @@ public class ConsoleUi {
 	}
 
 	private Shape askForShape() {
-		int input = getInput("Choose: \n 1 - Rock\n 2 - Scissor\n 3 - Paper\n");
+		Integer input = getInput("Choose: \n 1 - Rock\n 2 - Scissor\n 3 - Paper\n");
+		if (input == null)
+			return null;
+
 		switch (input) {
 		case 1:
 			return Shape.Rock;
@@ -36,12 +40,17 @@ public class ConsoleUi {
 		}
 	}
 
-	private int getInput(String prompt) {
+	@SuppressWarnings("resource")
+	private Integer getInput(String prompt) {
 		displayMessage(prompt);
-		try (Scanner scanner = new Scanner(System.in)) {
+		Scanner scanner = new Scanner(System.in);
+		try {
 			int input = scanner.nextInt();
 			return input;
+		} catch (InputMismatchException e) {
+			return null;
 		}
+
 	}
 
 	private void printWelcomeScreen() {

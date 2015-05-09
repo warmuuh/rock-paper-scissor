@@ -48,4 +48,13 @@ public class ConsoleUiTest {
 		assertThat(log.getLog(), containsString("invalid"));
 	}
 
+	@Test
+	public void uiShouldHandleInvalidInput() {
+		systemInMock.provideText("XX\n", "1\n");
+		ui.start();
+
+		assertThat(log.getLog(), containsString("Choose"));
+		assertThat(log.getLog(), containsString("invalid"));
+	}
+
 }

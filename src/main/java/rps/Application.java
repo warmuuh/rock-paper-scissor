@@ -1,9 +1,14 @@
 package rps;
 
+import rps.ui.ConsoleUi;
+
 public class Application {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+
+		ConsoleUi ui = new ConsoleUi();
+		ui.initialize();
+		ui.start();
 	}
 
 }
