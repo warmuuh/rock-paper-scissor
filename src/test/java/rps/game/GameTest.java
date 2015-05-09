@@ -24,16 +24,16 @@ public class GameTest {
 	@Parameters({ "Rock, Scissor", "Scissor, Paper", "Paper, Rock" })
 	@TestCaseName("{0} beats {1}")
 	public void shouldBeat(Shape first, Shape second) {
-		boolean win = game.makeMove(first, second);
-		assertThat(win, is(true));
+		GameResult result = game.makeMove(first, second);
+		assertThat(result, is(GameResult.Player1Wins));
 	}
 
 	@Test
 	@Parameters({ "Scissor, Rock", "Paper, Scissor", "Rock, Paper" })
 	@TestCaseName("{0} is beaten by {1}")
 	public void shouldLose(Shape first, Shape second) {
-		boolean win = game.makeMove(first, second);
-		assertThat(win, is(false));
+		GameResult result = game.makeMove(first, second);
+		assertThat(result, is(GameResult.Player2Wins));
 	}
 
 }
