@@ -14,7 +14,7 @@ import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.runner.RunWith;
 
-import rps.game.Shape;
+import rps.game.mock.WinLooseStrategy;
 
 @RunWith(JUnitParamsRunner.class)
 public class ConsoleHumanPlayerTest {
@@ -27,18 +27,20 @@ public class ConsoleHumanPlayerTest {
 
 	private ConsoleHumanPlayer player;
 
+	WinLooseStrategy strat = new WinLooseStrategy();
+
 	@Before
 	public void setup() {
 		player = new ConsoleHumanPlayer();
 	}
 
 	@Test
-	@Parameters({ "1, Rock", "2, Paper", "3, Scissor" })
+	@Parameters({ "1, Win", "2, Loose" })
 	@TestCaseName("{0} is {1}")
 	public void playerShouldChooseRock(String input, String expected) {
 		systemInMock.provideText(input);
 
-		player.getChosenShape(Shape.values());
+		player.getChosenShape(strat.getAvailableShapes());
 
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("You chose " + expected));
@@ -48,7 +50,7 @@ public class ConsoleHumanPlayerTest {
 	public void shouldHandleInvalidMove() {
 		systemInMock.provideText("9\n", "1\n");
 
-		player.getChosenShape(Shape.values());
+		player.getChosenShape(strat.getAvailableShapes());
 
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("invalid"));
@@ -58,7 +60,7 @@ public class ConsoleHumanPlayerTest {
 	public void shouldHandleInvalidInput() {
 		systemInMock.provideText("XX\n", "1\n");
 
-		player.getChosenShape(Shape.values());
+		player.getChosenShape(strat.getAvailableShapes());
 
 		assertThat(log.getLog(), containsString("Choose"));
 		assertThat(log.getLog(), containsString("invalid"));

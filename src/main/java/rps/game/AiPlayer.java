@@ -14,7 +14,7 @@ public abstract class AiPlayer implements Player {
 
 	@Override
 	public Shape getChosenShape(Shape[] availableShapes) {
-		int maxIdExclusive = Shape.values().length;
+		int maxIdExclusive = availableShapes.length;
 		int randomId = rnd.nextInt(maxIdExclusive);
 		Shape shape = availableShapes[randomId];
 		return shape;

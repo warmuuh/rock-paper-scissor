@@ -28,15 +28,15 @@ public class ConsoleHumanPlayer implements Player {
 
 	private void showAvailableChoices() {
 		StringBuilder b = new StringBuilder("Choose:\n");
-		for (int i = 0; i < Shape.values().length; i++) {
-			Shape shape = Shape.values()[i];
+		for (int i = 0; i < availableShapes.length; i++) {
+			Shape shape = availableShapes[i];
 			b.append(" ").append(i + 1).append(" - ").append(shape.toString()).append("\n");
 		}
 		displayMessage(b.toString());
 	}
 
 	private Shape getShapeForId(int id) {
-		return Shape.values()[id];
+		return availableShapes[id];
 	}
 
 	@Override

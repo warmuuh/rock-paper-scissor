@@ -11,6 +11,7 @@ import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import rps.game.Game;
+import rps.game.mock.WinLooseStrategy;
 
 public class ConsoleUiTest {
 
@@ -23,7 +24,9 @@ public class ConsoleUiTest {
 
 	@Before
 	public void setup() {
-		ui = new ConsoleUi(new Game());
+		WinLooseStrategy gameStrategy = new WinLooseStrategy();
+		Game game = new Game(gameStrategy);
+		ui = new ConsoleUi(game);
 		ui.initialize();
 	}
 
