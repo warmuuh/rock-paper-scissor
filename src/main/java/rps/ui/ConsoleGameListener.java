@@ -21,11 +21,17 @@ public class ConsoleGameListener implements GameEventListener {
 
 	@Override
 	public void onPlayer1Won(Shape player1Move, Shape player2Move) {
+		player1Move.getAttackAgainst(player2Move).ifPresent(attack -> {
+			displayMessage(player1Move + " " + attack + " " + player2Move);
+		});
 		displayMessage(game.getPlayer1().getName() + " wins!");
 	}
 
 	@Override
 	public void onPlayer2Won(Shape player1Move, Shape player2Move) {
+		player2Move.getAttackAgainst(player1Move).ifPresent(attack -> {
+			displayMessage(player2Move + " " + attack + " " + player1Move);
+		});
 		displayMessage(game.getPlayer2().getName() + " wins!");
 	}
 

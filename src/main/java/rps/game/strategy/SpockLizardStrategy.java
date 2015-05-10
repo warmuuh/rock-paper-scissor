@@ -24,20 +24,20 @@ public class SpockLizardStrategy implements GameStrategy {
 		DynamicShape lizard = new DynamicShape("Lizard");
 		DynamicShape spock = new DynamicShape("Spock");
 
-		rock.addToBeaten(scissor);
-		rock.addToBeaten(lizard);
+		rock.addAttackAgainst("crushes", scissor);
+		rock.addAttackAgainst("crushes", lizard);
 
-		scissor.addToBeaten(paper);
-		scissor.addToBeaten(lizard);
+		scissor.addAttackAgainst("cuts", paper);
+		scissor.addAttackAgainst("decapitates", lizard);
 
-		paper.addToBeaten(rock);
-		paper.addToBeaten(spock);
+		paper.addAttackAgainst("wraps", rock);
+		paper.addAttackAgainst("disproves", spock);
 
-		lizard.addToBeaten(spock);
-		lizard.addToBeaten(paper);
+		lizard.addAttackAgainst("poisons", spock);
+		lizard.addAttackAgainst("eats", paper);
 
-		spock.addToBeaten(scissor);
-		spock.addToBeaten(rock);
+		spock.addAttackAgainst("smashes", scissor);
+		spock.addAttackAgainst("vaporizes", rock);
 
 		this.availableShapes = new Shape[] { rock, paper, scissor, lizard, spock };
 

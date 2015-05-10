@@ -21,9 +21,9 @@ public class ClassicStrategy implements GameStrategy {
 		DynamicShape scissor = new DynamicShape("Scissor");
 		DynamicShape paper = new DynamicShape("Paper");
 
-		rock.addToBeaten(scissor);
-		scissor.addToBeaten(paper);
-		paper.addToBeaten(rock);
+		rock.addAttackAgainst("crushes", scissor);
+		scissor.addAttackAgainst("cuts", paper);
+		paper.addAttackAgainst("wraps", rock);
 
 		this.availableShapes = new Shape[] { rock, paper, scissor };
 
