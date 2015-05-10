@@ -1,0 +1,11 @@
+Rock
+Fire
+Scissor
+Human
+Wolf
+Sponge
+Paper
+Air
+Water
+Devil
+Gun
