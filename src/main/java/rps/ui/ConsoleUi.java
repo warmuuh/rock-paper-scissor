@@ -2,7 +2,6 @@ package rps.ui;
 
 import static rps.ui.ConsoleIO.*;
 import rps.game.Game;
-import rps.game.GameResult;
 import rps.game.Player;
 
 public class ConsoleUi {
@@ -12,6 +11,7 @@ public class ConsoleUi {
 
 	public ConsoleUi(Game game) {
 		this.game = game;
+		game.addListener(new ConsoleGameListener(game));
 
 	}
 
@@ -53,8 +53,7 @@ public class ConsoleUi {
 		for (int r = 0; r < rounds; ++r) {
 			int currentRound = r + 1;
 			displayMessage("\nRound " + currentRound);
-			GameResult result = game.startRound();
-			proclaimWinner(result);
+			game.startRound();
 		}
 		displayFinalResult();
 	}
@@ -79,21 +78,6 @@ public class ConsoleUi {
 		displayMessage("Final Results:\n");
 		displayMessage(" Scores of " + player1.getName() + ": " + player1.getScore());
 		displayMessage(" Scores of " + player2.getName() + ": " + player2.getScore());
-	}
-
-	private void proclaimWinner(GameResult result) {
-		switch (result) {
-		case Player1Wins:
-			displayMessage(game.getPlayer1().getName() + " wins!");
-			break;
-		case Player2Wins:
-			displayMessage(game.getPlayer2().getName() + " wins!");
-			break;
-		case Tie:
-			displayMessage("Its a tie!");
-			break;
-		default:
-		}
 	}
 
 	private void printWelcomeScreen() {

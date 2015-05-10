@@ -1,7 +1,8 @@
 package rps.game;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,26 +26,32 @@ public class GameTest {
 
 	@Test
 	public void player1ShouldWin() {
-		GameResult result = game.makeMove(new WinningShape(), new LoosingShape());
-		assertThat(result, is(GameResult.Player1Wins));
+		GameEventListener evtListener = mock(GameEventListener.class);
+		game.addListener(evtListener);
+		game.makeMove(new WinningShape(), new LoosingShape());
+		verify(evtListener).onPlayer1Won(any(Shape.class), any(Shape.class));
 	}
 
 	@Test
 	public void player2ShouldWin() {
-		GameResult result = game.makeMove(new LoosingShape(), new WinningShape());
-		assertThat(result, is(GameResult.Player2Wins));
+		GameEventListener evtListener = mock(GameEventListener.class);
+		game.addListener(evtListener);
+		game.makeMove(new LoosingShape(), new WinningShape());
+		verify(evtListener).onPlayer2Won(any(Shape.class), any(Shape.class));
 	}
 
 	@Test
 	public void shouldUnderstandTie() {
-		GameResult result = game.makeMove(new WinningShape(), new WinningShape());
-		assertThat(result, is(GameResult.Tie));
+		GameEventListener evtListener = mock(GameEventListener.class);
+		game.addListener(evtListener);
+		game.makeMove(new WinningShape(), new WinningShape());
+		verify(evtListener).onTie(any(Shape.class), any(Shape.class));
 	}
 
 	@Test
 	public void scoreOfWinnerShouldIncrement() {
 		game.startRound();
-		assertThat(game.getPlayer1().getScore(), is(1));
+		assertEquals(1, game.getPlayer1().getScore());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

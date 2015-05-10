@@ -1,7 +1,8 @@
 package rps.game.strategy;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import rps.game.Shape;
 
@@ -14,16 +15,16 @@ import rps.game.Shape;
 public class DynamicShape implements Shape {
 
 	private final String name;
-	private List<Shape> beatenShapes;
+	private Map<Shape, String> availableAttacks;
 
 	public DynamicShape(String name) {
 		super();
 		this.name = name;
-		beatenShapes = new LinkedList<Shape>();
+		availableAttacks = new HashMap<Shape, String>();
 	}
 
-	public void addToBeaten(Shape other) {
-		beatenShapes.add(other);
+	public void addAttackAgainst(String attack, Shape other) {
+		availableAttacks.put(other, attack);
 	}
 
 	@Override
@@ -33,7 +34,12 @@ public class DynamicShape implements Shape {
 
 	@Override
 	public boolean beats(Shape other) {
-		return beatenShapes.contains(other);
+		return availableAttacks.containsKey(other);
+	}
+
+	@Override
+	public Optional<String> getAttackAgainst(Shape other) {
+		return Optional.ofNullable(availableAttacks.get(other));
 	}
 
 	@Override
