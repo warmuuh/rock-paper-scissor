@@ -14,16 +14,21 @@ public class Game {
 	}
 
 	public GameResult startRound() {
-		Shape player1Choice = player1.getChosenShape(getAvailableShapes());
-		Shape player2Choice = player2.getChosenShape(getAvailableShapes());
+		if (gameStrategy == null) {
+			throw new IllegalArgumentException("gamestrategy must not be null");
+		}
+		if (player1 == null || player2 == null) {
+			throw new IllegalArgumentException("player must not be null");
+		}
+
+		Shape[] allShapes = gameStrategy.getAvailableShapes();
+		Shape player1Choice = player1.getChosenShape(allShapes);
+		Shape player2Choice = player2.getChosenShape(allShapes);
+
 		return makeMove(player1Choice, player2Choice);
 	}
 
-	private Shape[] getAvailableShapes() {
-		return gameStrategy.getAvailableShapes();
-	}
-
-	public GameResult makeMove(Shape moveOfPlayer1, Shape moveOfPlayer2) {
+	/* package */GameResult makeMove(Shape moveOfPlayer1, Shape moveOfPlayer2) {
 		boolean pl1Beats2 = moveOfPlayer1.beats(moveOfPlayer2);
 		boolean pl2Beats1 = moveOfPlayer2.beats(moveOfPlayer1);
 

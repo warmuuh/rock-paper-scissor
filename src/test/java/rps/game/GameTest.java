@@ -46,4 +46,11 @@ public class GameTest {
 		game.startRound();
 		assertThat(game.getPlayer1().getScore(), is(1));
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldHandleInvalidState() {
+		Game g = new Game(new WinLooseStrategy());
+		g.startRound();
+
+	}
 }

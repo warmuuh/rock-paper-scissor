@@ -5,6 +5,12 @@ import java.util.List;
 
 import rps.game.Shape;
 
+/**
+ * a dynamic shape-description that can be built up during runtime
+ * 
+ * @author pm
+ *
+ */
 public class DynamicShape implements Shape {
 
 	private final String name;
